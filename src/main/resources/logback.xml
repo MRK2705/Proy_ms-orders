@@ -6,7 +6,7 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- define el nombre del archivo con el contador -->
-            <fileNamePattern>/Users/Carlos Camargo/Desktop/Universidad/Semestre 9/Arquitectura de Software/Proyecto Final/logsProy/${application}-${port}.%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+            <fileNamePattern>/Users/Mirko Alarcon/Documents/UCB/I-2023/ArqSoftware/ProyectoMS/orders/logs/${application}-${port}.%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
             <!-- define el tamaño máximo en MB -->
             <maxFileSize>1MB</maxFileSize>
         </rollingPolicy>

@@ -2,13 +2,18 @@ server:
   port: 5678
 
 spring:
-  zipkin:
-    base-url: http://localhost:9411/
+#  zipkin:
+#    base-url: http://localhost:9411/
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
   datasource:
     type: org.postgresql.jdbc2.optional.SimpleDataSource
     username: ${USER_NAME:postgres}
     password: ${PASSWORD:mysecretpassword}
-    url: ${URL:jdbc:postgresql://postgres:5431/postgres}
+    url: ${URL:jdbc:postgresql://localhost:5432/postgres}
   config:
     import: optional:file:.env[.properties]
   jpa:
@@ -19,6 +24,6 @@ spring:
 
 eureka:
   client:
-    registerWithEureka: true
+    registerWithEureka: false
     serviceUrl:
       defaultZone: http://localhost:8701/eureka/

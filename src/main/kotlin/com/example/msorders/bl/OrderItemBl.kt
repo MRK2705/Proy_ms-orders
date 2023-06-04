@@ -20,11 +20,10 @@ class OrderItemBl @Autowired constructor(private val orderItemRepository: OrderI
     }
 
     // Función para registrar un item de orden
-    fun registerOrderItem(cantidad: Int, fecha: Date, precioUnitario: BigDecimal, precioTotal: BigDecimal, productId: Long, userId: Long): OrderItemDto {
+    fun registerOrderItem(cantidad: Int, precioUnitario: BigDecimal, precioTotal: BigDecimal, productId: Long, userId: String): OrderItemDto {
         LOGGER.info("Registrando item de orden")
         val orderItem: OrderItem = OrderItem()
         orderItem.cantidad = cantidad
-        orderItem.fecha = fecha
         orderItem.precioUnitario = precioUnitario
         orderItem.precioTotal = precioTotal
         orderItem.productId = productId
@@ -32,6 +31,7 @@ class OrderItemBl @Autowired constructor(private val orderItemRepository: OrderI
         orderItemRepository.save(orderItem)
         LOGGER.info("Item de orden guardado en base de datos")
         val orderItemDto = OrderItemDto(orderItem.cantidad, orderItem.fecha, orderItem.precioUnitario, orderItem.precioTotal, orderItem.productId, orderItem.userId, orderItem.orderId)
+
         return orderItemDto
     }
 

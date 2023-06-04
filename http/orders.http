@@ -1,3 +1,17 @@
 ###
 POST http://localhost:5678/api/v1/orderItem/register?cantidad=5&fecha=2023-05-28&precioUnitario=10.5&precioTotal=52.5&productId=22&userId=123
 ###
+GET http://localhost:5678/api/v1/sns/suscribe/mirko.alarcon@ucb.edu.bo
+###
+POST http://localhost:5678/api/v1/orders/subscribe
+Accept: application/json
+Content-Type: application/json
+
+{
+    "cantidad": 5,
+    "fecha": "2023-05-28",
+    "precioUnitario": 10.5,
+    "precioTotal": 52.5,
+    "productId": 22,
+    "userId": "2334f9b4-6f95-4119-aedb-0c88a71f9e9c"
+}

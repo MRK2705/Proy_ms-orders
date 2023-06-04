@@ -18,15 +18,13 @@ class OrderItemApi(private val orderItemBl: OrderItemBl) {
     @PostMapping("/register")
     fun registerOrderItem(
         @RequestParam cantidad: Int,
-        @RequestParam fecha: Date,
         @RequestParam precioUnitario: BigDecimal,
         @RequestParam precioTotal: BigDecimal,
         @RequestParam productId: Long,
-        @RequestParam userId: Long
+        @RequestParam userId: String
     ): ResponseEntity<Any> {
         val orderItemDto = orderItemBl.registerOrderItem(
             cantidad,
-            fecha,
             precioUnitario,
             precioTotal,
             productId,
