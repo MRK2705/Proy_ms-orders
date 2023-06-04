@@ -30,6 +30,7 @@ class SuscribeApi (private val amazonSNSClient: AmazonSNSClient, private val sus
     fun suscribe(@RequestBody suscribe: OrderItem): ResponseDto<Any> {
         val orderItemDto = orderItemBl.registerOrderItem(
             suscribe.cantidad,
+            Date(),
             suscribe.precioUnitario,
             suscribe.precioTotal,
             suscribe.productId,

@@ -4,13 +4,13 @@ import java.math.BigDecimal
 import java.util.Date
 
 data class OrderItemDto(
-    var cantidad: Int,
-    var fecha: Date,
-    var precioUnitario: BigDecimal,
-    var precioTotal: BigDecimal,
-    var productId: Long,
-    var userId: String,
-    var orderId: Long
+    var cantidad: Int?,
+    var fecha: Date?,
+    var precioUnitario: BigDecimal?,
+    var precioTotal: BigDecimal?,
+    var productId: Long?,
+    var userId: String?,
+    var orderId: Long?
 ) {
     constructor() : this(0, Date(), BigDecimal.ZERO, BigDecimal.ZERO, 0, "", 0)
 

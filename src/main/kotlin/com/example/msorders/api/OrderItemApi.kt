@@ -17,22 +17,19 @@ class OrderItemApi(private val orderItemBl: OrderItemBl) {
     fun registerOrderItem(
         @RequestParam cantidad: Int,
         @RequestParam precioUnitario: BigDecimal,
+        @RequestParam precioTotal: BigDecimal,
         @RequestParam productId: Long,
         @RequestParam userId: String
     ): ResponseEntity<Any> {
-        val orderItemDto = orderItemBl.registerOrderItem(
-            cantidad,
-            precioUnitario,
-            productId
-        )
+        val orderItemDto = orderItemBl.registerOrderItem(cantidad, Date(), precioUnitario, precioTotal, productId, userId)
         return ResponseEntity.ok(orderItemDto)
     }
 
     // Endpoint para obtener la información de los order items de un usuario
     @GetMapping("/getOrderInfoByUserId")
-    fun getOrderInfoByUserId(@RequestParam("userId") userId: String): ResponseEntity<List<OrderItemInfoDto>> {
-        val orderItemsInfo = orderItemBl.getOrderInfoByUserId(userId)
-        return ResponseEntity.ok(orderItemsInfo)
+    fun getOrderInfoByUserId(@RequestParam("userId") userId: Long): ResponseEntity<OrderItemDto> {
+        val orderItemInfoDtoList = orderItemBl.getOrderItemById(userId)
+        return ResponseEntity.ok(orderItemInfoDtoList)
     }
 }
 
