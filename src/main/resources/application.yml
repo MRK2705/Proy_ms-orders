@@ -2,11 +2,23 @@ server:
   port: 5678
 
 spring:
+  zipkin:
+    base-url: http://localhost:9411/
+  datasource:
+    type: org.postgresql.jdbc2.optional.SimpleDataSource
+    username: ${USER_NAME:postgres}
+    password: ${PASSWORD:mysecretpassword}
+    url: ${URL:jdbc:postgresql://postgres:5431/postgres}
+  config:
+    import: optional:file:.env[.properties]
+  jpa:
+    hibernate:
+      ddl-auto: update
   application:
-    name: ms-orders
+    name: ms-order
 
 eureka:
   client:
     registerWithEureka: true
     serviceUrl:
-      defaultZone: ${DISCOVERY_URL:http://localhost:8701/eureka/}
+      defaultZone: http://localhost:8701/eureka/
