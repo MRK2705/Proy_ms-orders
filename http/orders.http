@@ -1,0 +1,3 @@
+###
+POST http://localhost:5678/api/v1/orderItem/register?cantidad=5&fecha=2023-05-28&precioUnitario=10.5&precioTotal=52.5&productId=22&userId=123
+###
