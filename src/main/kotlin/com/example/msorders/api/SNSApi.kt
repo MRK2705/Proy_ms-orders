@@ -1,5 +1,6 @@
 package com.example.msorders.api
 
+/*
 import com.amazonaws.services.sns.AmazonSNSClient
 import com.amazonaws.services.sns.model.PublishRequest
 import com.amazonaws.services.sns.model.SubscribeRequest
@@ -38,3 +39,5 @@ class SNSApi {
     }
 
 }
+
+ */

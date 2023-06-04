@@ -2,11 +2,9 @@ package com.example.msorders.api
 
 import com.example.msorders.bl.OrderItemBl
 import com.example.msorders.dto.OrderItemDto
+import com.example.msorders.dto.OrderItemInfoDto
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.math.BigDecimal
 import java.util.*
 
@@ -19,19 +17,25 @@ class OrderItemApi(private val orderItemBl: OrderItemBl) {
     fun registerOrderItem(
         @RequestParam cantidad: Int,
         @RequestParam precioUnitario: BigDecimal,
-        @RequestParam precioTotal: BigDecimal,
         @RequestParam productId: Long,
         @RequestParam userId: String
     ): ResponseEntity<Any> {
         val orderItemDto = orderItemBl.registerOrderItem(
             cantidad,
             precioUnitario,
-            precioTotal,
-            productId,
-            userId
+            productId
         )
         return ResponseEntity.ok(orderItemDto)
     }
+
+    // Endpoint para obtener la información de los order items de un usuario
+    @GetMapping("/getOrderInfoByUserId")
+    fun getOrderInfoByUserId(@RequestParam("userId") userId: String): ResponseEntity<List<OrderItemInfoDto>> {
+        val orderItemsInfo = orderItemBl.getOrderInfoByUserId(userId)
+        return ResponseEntity.ok(orderItemsInfo)
+    }
 }
+
+
 
 
