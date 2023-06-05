@@ -2,18 +2,18 @@ server:
   port: 5678
 
 spring:
-#  zipkin:
-#    base-url: http://localhost:9411/
+  zipkin:
+    base-url: http://localhost:9411/
   rabbitmq:
     host: localhost
-    port: 5672
+    port: 15672
     username: guest
     password: guest
   datasource:
     type: org.postgresql.jdbc2.optional.SimpleDataSource
     username: ${USER_NAME:postgres}
     password: ${PASSWORD:mysecretpassword}
-    url: ${URL:jdbc:postgresql://localhost:5433/postgres}
+    url: ${URL:jdbc:postgresql://localhost:5432/postgres}
   config:
     import: optional:file:.env[.properties]
   jpa:
@@ -22,8 +22,77 @@ spring:
   application:
     name: ms-orders
 
+keycloak:
+  auth-server-url: http://172.18.5.38:8081
+  autodetect-bearer-only: true
+  credentials:
+    secret: tCDIWn00UTUCJeARVwSvN3mAOPewdxBX
+  realm: ms-software
+  resource: backend
+  ssl-required: none
+  use-resource-role-mappings: false
+  security-constraints:
+    - auth-roles:
+        - USER
+      security-collections:
+        - name: SERVICIOS DE ADMINISTRADOR
+          omitted-methods:
+            - OPTIONS
+          patterns:
+            - /api/v1/orderItem/register
+            - /api/v1/orderItem/getOrderInfoByUserId
+            - /api/v1/orders/subscribe
+
 eureka:
   client:
     registerWithEureka: true
     serviceUrl:
       defaultZone: http://localhost:8701/eureka/
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      userCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+  bulkhead:
+    configs:
+      default:
+        maxConcurrentCalls: 10
+        maxWaitDuration: 2000
+    instances:
+      userBH:
+        baseConfig: default
+  ratelimiter:
+    configs:
+      default:
+        limitRefreshPeriod: 10s
+        limitForPeriod: 10
+    instances:
+      userRL:
+        baseConfig: default
+  retry:
+    configs:
+      default:
+        maxAttempts: 3
+        waitDuration: 500ms
+    instances:
+      userRT:
+        baseConfig: default
+
+management:
+  endpoints:
+    web:
+    exposure:
+      include: "*"
+
+  endpoint:
+    health:
+      circuit-breakers:
+        enabled: true

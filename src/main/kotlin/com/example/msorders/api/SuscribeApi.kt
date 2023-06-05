@@ -6,6 +6,10 @@ import com.example.msorders.bl.OrderItemBl
 import com.example.msorders.bl.SuscribeBl
 import com.example.msorders.dao.OrderItem
 import com.example.msorders.dto.ResponseDto
+import io.github.resilience4j.bulkhead.annotation.Bulkhead
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter
+import io.github.resilience4j.retry.annotation.Retry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.PostMapping
@@ -27,6 +31,10 @@ class SuscribeApi (private val amazonSNSClient: AmazonSNSClient, private val sus
 
     //post de suscripcion a servicio de notificaciones mediante funcion de orderitembl
     @PostMapping("/subscribe")
+    @CircuitBreaker(name = "productCB", fallbackMethod = "suscribeFallback")
+    @Bulkhead(name = "productBH")
+    @RateLimiter(name = "productRL")
+    @Retry(name = "productRT", fallbackMethod = "suscribeFallback")
     fun suscribe(@RequestBody suscribe: OrderItem): ResponseDto<Any> {
         val orderItemDto = orderItemBl.registerOrderItem(
             suscribe.productId,
@@ -34,7 +42,6 @@ class SuscribeApi (private val amazonSNSClient: AmazonSNSClient, private val sus
             Date(),
             suscribe.precioUnitario,
             suscribe.userId
-
         )
         logger.info("Suscribiendo usuario con id: ${suscribe.userId}")
         val email = suscribeBl.getEmail(suscribe.userId)
@@ -43,15 +50,15 @@ class SuscribeApi (private val amazonSNSClient: AmazonSNSClient, private val sus
         logger.info("Usuario con id: ${suscribe.userId} suscrito")
         return ResponseDto(200, "Usuario suscrito", true)
     }
-//    @PostMapping("/subscribe")
-//    fun suscribe(@RequestBody suscribe: OrderItem): ResponseDto<Any> {
-//        logger.info("Suscribiendo usuario con id: ${suscribe.userId}")
-//        val email = suscribeBl.getEmail(suscribe.userId)
-//        val order = orderItemBl.registerOrderItem(2, Date(), )  )
-//        val request = PublishRequest(topic_arn, "Orden confirmada",email)
-//        amazonSNSClient.publish(request)
-//        logger.info("Usuario con id: ${suscribe.userId} suscrito")
-//        return ResponseDto(200, "Usuario suscrito", true)
-//    }
+    fun suscribeFallback(
+        productId: Long,
+        cantidad: Int,
+        fecha:Date,
+        precioUnitario: BigDecimal,
+        userId: String,
+        throwable: Throwable
+    ): ResponseDto<Any> {
+        return ResponseDto(500, "Error", false)
+    }
 
 }
