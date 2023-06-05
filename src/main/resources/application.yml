@@ -13,17 +13,17 @@ spring:
     type: org.postgresql.jdbc2.optional.SimpleDataSource
     username: ${USER_NAME:postgres}
     password: ${PASSWORD:mysecretpassword}
-    url: ${URL:jdbc:postgresql://localhost:5432/postgres}
+    url: ${URL:jdbc:postgresql://localhost:5433/postgres}
   config:
     import: optional:file:.env[.properties]
   jpa:
     hibernate:
       ddl-auto: update
   application:
-    name: ms-order
+    name: ms-orders
 
 eureka:
   client:
-    registerWithEureka: false
+    registerWithEureka: true
     serviceUrl:
       defaultZone: http://localhost:8701/eureka/

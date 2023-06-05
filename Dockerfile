@@ -11,7 +11,7 @@ RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
 FROM eclipse-temurin:11
 
-VOLUME Documents/UCB/I-2023/ArqSoftware/ProyectoMS/orders/logs
+VOLUME /Desktop/Universidad/Semestre 9/Arquitectura de Software/Proyecto Final/logsProy
 
 ARG DEPENDENCY=/workspace/app/target/dependency
 COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib

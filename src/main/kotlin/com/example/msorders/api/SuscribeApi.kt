@@ -29,12 +29,12 @@ class SuscribeApi (private val amazonSNSClient: AmazonSNSClient, private val sus
     @PostMapping("/subscribe")
     fun suscribe(@RequestBody suscribe: OrderItem): ResponseDto<Any> {
         val orderItemDto = orderItemBl.registerOrderItem(
+            suscribe.productId,
             suscribe.cantidad,
             Date(),
             suscribe.precioUnitario,
-            suscribe.precioTotal,
-            suscribe.productId,
             suscribe.userId
+
         )
         logger.info("Suscribiendo usuario con id: ${suscribe.userId}")
         val email = suscribeBl.getEmail(suscribe.userId)

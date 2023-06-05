@@ -1,7 +1,11 @@
 ###
-POST http://localhost:5678/api/v1/orderItem/register?cantidad=5&fecha=2023-05-28&precioUnitario=10.5&precioTotal=52.5&productId=22&userId=123
+POST http://localhost:8283/ms-orders/api/v1/orderItem/register?cantidad=3&fecha=2023-06-05 01:28:19.444&precioUnitario=10.5&productId=1&userId=123
 ###
-GET http://localhost:5678/api/v1/orderItem/getOrderInfoByUserId?userId=2334f9b4-6f95-4119-aedb-0c88a71f9e9c
+POST http://localhost:8283/ms-orders/api/v1/orderItem/register?productId=1&cantidad=3&precioUnitario=10.5&userId=123
+###
+POST http://localhost:5678/api/v1/orderItem/register?cantidad=5&fecha=2023-05-28&precioUnitario=15&precioTotal=52.5&productId=2&userId=123
+###
+GET http://localhost:8283/ms-orders/api/v1/orderItem/getOrderInfoByUserId?userId=123
 ###
 GET http://localhost:5678/api/v1/sns/suscribe/mirko.alarcon@ucb.edu.bo
 ###
